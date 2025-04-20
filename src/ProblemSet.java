@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class ProblemSet {
 
 
-    public String furthestNode(String filePath, String startNode) {
+    public static String furthestNode(String filePath, String startNode) {
 
         // Get edge list
         ArrayList<Edge> edgeList = Utilities.edgeListFromFile(filePath);

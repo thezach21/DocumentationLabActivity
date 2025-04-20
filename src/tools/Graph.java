@@ -2,6 +2,7 @@ package tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 /**
  * Implementation of a graph using an adjacency list.
@@ -29,7 +30,10 @@ public class Graph {
      * @param end a {@code String} representing the node in the graph
      *            that the path should end on.
      * @return an {@code ArrayList} of the edges in the computed path
-     * starting at {@code start} and ending at {@code end}.
+     * starting at {@code start} and ending at {@code end}. An empty
+     * list implies that the node is the starting node, and a return
+     * value of {@code Null} implies that the node is not reachable from
+     * the start node or not in the graph.
      */
     public ArrayList<Edge> shortestPathSimple(String start, String end) {
         return allShortestPathsSimple(start).get(end);
@@ -43,7 +47,10 @@ public class Graph {
      * @param end a {@code String} representing the node in the graph
      *            that the path should end on.
      * @return an {@code ArrayList} of the edges in the computed path
-     * starting at {@code start} and ending at {@code end}.
+     * starting at {@code start} and ending at {@code end}. An empty
+     * list implies that the node is the starting node, and a return
+     * value of {@code Null} implies that the node is not reachable from
+     * the start node or not in the graph.
      */
     public ArrayList<Edge> shortestPathAdvanced(String start, String end) {
         return allShortestPathsAdvanced(start).get(end);
@@ -55,11 +62,48 @@ public class Graph {
      * @param start a {@code String} representing the node on the graph
      *              that the paths should start from.
      * @return a {@code HashMap} of all the computed paths. The keys of this map are
-     * {@code Strings} representing the end node of the corresponding path.
+     * {@code Strings} representing the end node of the corresponding path. An empty
+     * list as a value implies that the string is the starting node, and any nodes not
+     * reachable from the starting node will not be included in the output.
      */
     public HashMap<String,ArrayList<Edge>> allShortestPathsSimple(String start) {
-        //TODO: this
-        return null;
+        HashMap<String,Integer> distances = new HashMap<>();
+        HashMap<String,Edge> previous = new HashMap<>();
+        PriorityQueue<Edge.QueueEntry> queue = new PriorityQueue<>(new Edge.edgeComparator());
+        distances.put(start,0);
+        previous.put(start,null);
+        for (String s : adjList.keySet()) {
+            if (!s.equals(start)) {
+                distances.put(s,Integer.MAX_VALUE);
+            }
+        }
+        for (Edge e : adjList.get(start)) {
+            queue.add(new Edge.QueueEntry(e,e.weight));
+            previous.put(e.end,e);
+            distances.put(e.end,e.weight);
+        }
+
+        while (!queue.isEmpty()) {
+            Edge current = queue.poll().edge;
+            for (Edge e : adjList.get(current.end)) {
+                if (e.weight + distances.get(current.end) < distances.get(e.end)) {
+                    previous.put(e.end,e);
+                    distances.put(e.end,e.weight + distances.get(current.end));
+                    queue.add(new Edge.QueueEntry(e,e.weight + distances.get(current.end)));
+                }
+            }
+        }
+
+        HashMap<String,ArrayList<Edge>> out = new HashMap<>();
+        for (String s : previous.keySet()) {
+            out.put(s,new ArrayList<>());
+            String c = s;
+            while (c != null && previous.get(c) != null) {
+                out.get(s).addFirst(previous.get(c));
+                c = previous.get(c).start;
+            }
+        }
+        return out;
     }
 
     /**
@@ -68,7 +112,9 @@ public class Graph {
      * @param start a {@code String} representing the node on the graph
      *              that the paths should start from.
      * @return a {@code HashMap} of all the computed paths. The keys of this map are
-     * {@code Strings} representing the end node of the corresponding path.
+     * {@code Strings} representing the end node of the corresponding path. An empty
+     * list as a value implies that the string is the starting node, and any nodes not
+     * reachable from the starting node will not be included in the output.
      */
     public HashMap<String,ArrayList<Edge>> allShortestPathsAdvanced(String start) {
         //TODO: also this
