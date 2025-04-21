@@ -17,5 +17,4 @@ public class ActivityTests {
         assertEquals("8",ProblemSet.furthestNode("data/input2.csv","1"));
         assertEquals("4",ProblemSet.furthestNode("data/input4.csv","1"));
     }
-
 }
