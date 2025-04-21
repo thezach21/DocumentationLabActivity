@@ -22,19 +22,7 @@ public class ProblemSet {
         // Get all paths from startNode
         HashMap<String,ArrayList<Edge>> paths = graph.allShortestPathsAdvanced(startNode);
 
-        // Find the longest path
-        //TODO: maybe make this simpler?
-        String furthestNode = "";
-        int longestPathLength = Integer.MIN_VALUE;
-        for (String endNode : paths.keySet()) {
-            int pathLength = Utilities.totalPathWeight(paths.get(endNode));
-            if (pathLength > longestPathLength) {
-                furthestNode = endNode;
-                longestPathLength = pathLength;
-            }
-        }
-
-        // Return result
-        return furthestNode;
+        // Return the longest path
+        return Utilities.findLongestPath(paths);
     }
 }

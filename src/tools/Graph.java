@@ -108,7 +108,7 @@ public class Graph {
 
     /**
      * Computes the shortest paths to each node in the graph starting at the specified node.
-     * Can work on graphs with negative edge weights.
+     * Can work on graphs with negative edge weights, but does not work on graphs with negative cycles.
      * @param start a {@code String} representing the node on the graph
      *              that the paths should start from.
      * @return a {@code HashMap} of all the computed paths. The keys of this map are
@@ -117,9 +117,36 @@ public class Graph {
      * reachable from the starting node will not be included in the output.
      */
     public HashMap<String,ArrayList<Edge>> allShortestPathsAdvanced(String start) {
-        //TODO: also this
-        return null;
-    }
+        ArrayList<Edge> eList = Utilities.edgeListFromAdjacencyList(adjList);
+        HashMap<String,Integer> distances = new HashMap<>();
+        HashMap<String,Edge> previous = new HashMap<>();
+        for (String s : adjList.keySet()) {
+            distances.put(s,Integer.MAX_VALUE);
+        }
+        distances.put(start,0);
 
+        for (int i = 0; i < Utilities.vertexCount(adjList); i++) {
+            for (Edge e : eList) {
+                if (distances.get(e.start) != Integer.MAX_VALUE) {
+                    int newDist = distances.get(e.start) + e.weight;
+                    if (newDist < distances.get(e.end)) {
+                        distances.put(e.end,newDist);
+                        previous.put(e.end,e);
+                    }
+                }
+            }
+        }
+
+        HashMap<String,ArrayList<Edge>> out = new HashMap<>();
+        for (String s : previous.keySet()) {
+            out.put(s,new ArrayList<>());
+            String current = s;
+            while (previous.get(current) != null) {
+                out.get(s).addFirst(previous.get(current));
+                current = previous.get(current).start;
+            }
+        }
+        return out;
+    }
 
 }

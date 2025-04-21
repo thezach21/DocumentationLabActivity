@@ -34,12 +34,47 @@ public class Utilities {
         return out;
     }
 
+    public static ArrayList<Edge> edgeListFromAdjacencyList(HashMap<String,ArrayList<Edge>> adjList) {
+        ArrayList<Edge> out = new ArrayList<>();
+        for (ArrayList<Edge> s : adjList.values()) {
+            for (Edge e : s) {
+                if (!out.contains(e)) {
+                    out.add(e);
+                }
+            }
+        }
+        return out;
+    }
+
+    public static int vertexCount(HashMap<String,ArrayList<Edge>> adjList) {
+        ArrayList<String> vertices = new ArrayList<>();
+        ArrayList<Edge> edges = edgeListFromAdjacencyList(adjList);
+        for (Edge e : edges) {
+            if (!vertices.contains(e.end)) vertices.add(e.end);
+            if (!vertices.contains(e.start)) vertices.add(e.start);
+        }
+        return vertices.size();
+    }
+
     public static int totalPathWeight(ArrayList<Edge> path) {
         int c = 0;
         for (Edge e : path) {
             c += e.weight;
         }
         return c;
+    }
+
+    public static String findLongestPath(HashMap<String,ArrayList<Edge>> paths) {
+        String out = "";
+        int longestPathLength = Integer.MIN_VALUE;
+        for (String endNode : paths.keySet()) {
+            int pathLength = Utilities.totalPathWeight(paths.get(endNode));
+            if (pathLength > longestPathLength) {
+                out = endNode;
+                longestPathLength = pathLength;
+            }
+        }
+        return out;
     }
 
 }
