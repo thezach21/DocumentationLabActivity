@@ -3,6 +3,11 @@ package tools;
 import java.util.Comparator;
 import java.util.Objects;
 
+/**
+ * A class to represent an edge in a weighted directed graph. All of these methods
+ * are only to be used by the {@code Graph} class, and do not need to be considered
+ * for your solution to the activity.
+ */
 public class Edge {
     public final String start;
     public final String end;

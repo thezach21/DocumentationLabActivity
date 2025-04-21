@@ -6,9 +6,11 @@ import java.util.PriorityQueue;
 
 /**
  * Implementation of a graph using an adjacency list.
- * @implNote This code is intentionally obfuscated a bit, to make it better for demonstrating the
- * concepts of this activity. Do not look to any of this for ideas on good code practice, even
- * if you can understand part or all of it.
+ * @implNote This code is intentionally obfuscated a bit
+ * to make it better for demonstrating the concepts of this activity.
+ * Do not look to any of this for ideas on good code practice, even
+ * if you can understand part or all of it, as it is built to work
+ * for this activity alone.
  */
 public class Graph {
 

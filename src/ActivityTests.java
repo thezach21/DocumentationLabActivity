@@ -1,11 +1,4 @@
 import org.junit.Test;
-import tools.Edge;
-import tools.Graph;
-import tools.Utilities;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import static org.junit.Assert.*;
 
 public class ActivityTests {
