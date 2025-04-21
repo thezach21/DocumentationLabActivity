@@ -8,6 +8,14 @@ import java.util.HashMap;
 public class ProblemSet {
 
 
+    /**
+     * Finds the node in the graph in the given file that has the distance of its
+     * shortest path from the given starting node maximized.
+     * @param filePath the path of the file to be read from to obtain the graph.
+     * @param startNode the node in the graph to compute the furthest node from.
+     * @return the node in the graph that is the furthest from the starting node
+     * according to the distance of its shortest path.
+     */
     public static String furthestNode(String filePath, String startNode) {
 
         // Get edge list
