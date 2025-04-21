@@ -24,5 +24,6 @@ public class ProblemSet {
 
         // Return the longest path
         return Utilities.findLongestPath(paths);
+
     }
 }

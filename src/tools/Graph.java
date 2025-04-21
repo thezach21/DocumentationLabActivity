@@ -86,10 +86,12 @@ public class Graph {
         while (!queue.isEmpty()) {
             Edge current = queue.poll().edge;
             for (Edge e : adjList.get(current.end)) {
-                if (e.weight + distances.get(current.end) < distances.get(e.end)) {
-                    previous.put(e.end,e);
-                    distances.put(e.end,e.weight + distances.get(current.end));
-                    queue.add(new Edge.QueueEntry(e,e.weight + distances.get(current.end)));
+                if (!previous.containsKey(e.end)) {
+                    if (e.weight + distances.get(current.end) < distances.get(e.end)) {
+                        previous.put(e.end,e);
+                        distances.put(e.end,e.weight + distances.get(current.end));
+                        queue.add(new Edge.QueueEntry(e,e.weight + distances.get(current.end)));
+                    }
                 }
             }
         }
